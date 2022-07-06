@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: echo-config
+data:
+  app.conf: |
+    {
+      "server": {
+        "port": 8123,
+        "_throttleDocs": "http://restify.com/docs/plugins-api/#throttle",
+        "throttle": {
+          "burst": 50,
+          "rate": 20,
+          "ip": true
+        }
+      },
+      "app": {
+        "defaultMessage": "Hello",
+        "includeDefaultMessage": true
+      }
+    }
+

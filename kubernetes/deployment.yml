@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: echo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: echo
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: echo
+    spec:
+      containers:
+      - image: catalinm/echo
+        imagePullPolicy: Always
+        name: echo
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8123
+          initialDelaySeconds: 10
+          periodSeconds: 5
+        resources:
+           limits:
+             cpu: 300m
+             memory: 512Mi
+           requests:
+             cpu: 200m
+             memory: 256Mi
+        ports:
+        - name: http
+          containerPort: 8123
+        env:
+        - name: NODE_DEBUG
+          value: debug
+        - name: ECHO_CONFIG_LOCATION
+          value: /opt/app/config/app.conf
+
+        volumeMounts:
+        - name: app-config
+          mountPath: /opt/app/config
+      volumes:
+      - name: app-config
+        configMap:
+          name: echo-config
