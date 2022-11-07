@@ -24,6 +24,12 @@ spec:
             port: 8123
           initialDelaySeconds: 10
           periodSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8123
+          initialDelaySeconds: 10
+          periodSeconds: 5
         resources:
            limits:
              cpu: 300m

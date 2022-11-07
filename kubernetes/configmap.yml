@@ -10,12 +10,12 @@ data:
         "_throttleDocs": "http://restify.com/docs/plugins-api/#throttle",
         "throttle": {
           "burst": 50,
-          "rate": 20,
+          "rate": 100,
           "ip": true
         }
       },
       "app": {
-        "defaultMessage": "Hello",
+        "defaultMessage": "eun",
         "includeDefaultMessage": true
       }
     }

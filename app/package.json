@@ -13,6 +13,7 @@
     "async-listener": "^0.6.10",
     "dateformat": "^5.0.3",
     "esm": "^3.2.25",
+    "request": "^2.88.2",
     "restify": "^8.6.1"
   }
 }

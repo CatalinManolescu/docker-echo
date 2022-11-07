@@ -3,6 +3,7 @@ import { logger } from './logger';
 import { applicationConfig } from './config';
 
 const errors = require('restify-errors');
+const request = require('request');
 
 class EchoServer {
   #port = 8123
@@ -65,6 +66,27 @@ class EchoServer {
         name: applicationConfig.application.name,
         version: applicationConfig.application.version
       });
+    });
+
+    self.#server.post("/time-url", function (req, res, next) {
+      let remoteURL = req.params['remote_url'];
+      if (remoteURL) {
+        let startTime = new Date().getTime();
+        request(remoteURL, {}, (remote_err, remote_res, remote_body) => {
+          if (remote_err) {
+            res.send({'remote_url': remoteURL, 'response': remote_err.message})
+            return logger.error(remote_err);
+          }
+
+          let endTime = new Date().getTime();
+          res.send({'remote_url': remoteURL, 'response': 'ok', 'time': endTime - startTime});
+        });
+      } else {
+        res.send({
+          remote_url: 'undefined'
+        });
+      }
+
     });
 
     self.#server.get('/*', function (req, res, next) {
